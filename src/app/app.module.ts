@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -26,7 +26,6 @@ import {RouterModule} from "@angular/router";
 import {AuthGuard} from "./components/auth/auth.guard";
 import {AuthInterceptor} from "./components/auth/auth.interceptor";
 import { SignupComponent } from './components/signup/signup.component';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,6 +66,7 @@ import { SignupComponent } from './components/signup/signup.component';
       multi:true
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
