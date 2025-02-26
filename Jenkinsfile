@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs 'NodeJS' // Name of the Node.js installation
+    }
+
     environment {
         DOCKER_IMAGE = 'angular-app:v1' // Local Minikube Image
         K8S_DEPLOYMENT = 'deployment.yaml'
@@ -12,6 +16,13 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 git branch: 'main', url: 'https://github.com/virajsamarasinghe/jod_find_frontend_angular-.git'
+            }
+        }
+
+        stage('Check Node Version') {
+            steps {
+                sh 'node -v' // Print Node.js version
+                sh 'npm -v'  // Print npm version
             }
         }
 
