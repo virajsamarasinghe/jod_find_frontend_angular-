@@ -26,6 +26,7 @@ import {RouterModule} from "@angular/router";
 import {AuthGuard} from "./components/auth/auth.guard";
 import {AuthInterceptor} from "./components/auth/auth.interceptor";
 import { SignupComponent } from './components/signup/signup.component';
+
 @NgModule({
   declarations: [
     AppComponent,
