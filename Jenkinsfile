@@ -2,14 +2,16 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'angular-app' // No need for Docker Hub for Minikube
+        DOCKER_IMAGE = 'angular-app:v1' // Local Minikube Image
         K8S_DEPLOYMENT = 'deployment.yaml'
+        MINIKUBE_IP = '192.168.49.2' // Minikube IP Address
+        SERVICE_PORT = '80' // Service Port
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO.git'
+                git branch: 'main', url: 'https://github.com/virajsamarasinghe/jod_find_frontend_angular-.git'
             }
         }
 
@@ -33,25 +35,38 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                // Use Minikube's Docker daemon
-                sh 'eval $(minikube docker-env) && docker build -t $DOCKER_IMAGE .'
+                script {
+                    sh 'eval $(minikube docker-env)' // Use Minikube's Docker
+                    sh 'docker build -t $DOCKER_IMAGE .'
+                }
             }
         }
 
         stage('Deploy to Kubernetes') {
             steps {
-                // Apply the deployment using the Minikube context
-                sh 'kubectl apply -f $K8S_DEPLOYMENT --context=minikube'
+                script {
+                    sh 'kubectl apply -f $K8S_DEPLOYMENT --context=minikube'
+                    sh 'kubectl rollout status deployment/angular-app --context=minikube' // Ensure deployment success
+                }
+            }
+        }
+
+        stage('Post-Deployment Tests') {
+            steps {
+                script {
+                    // Test the deployed application
+                    sh "curl -f http://${MINIKUBE_IP}:${SERVICE_PORT}" // Test the application
+                }
             }
         }
     }
 
     post {
         success {
-            echo 'CI/CD Pipeline Execution Successful!'
+            echo '✅ CI/CD Pipeline Execution Successful!'
         }
         failure {
-            echo 'Pipeline Execution Failed!'
+            echo '❌ Pipeline Execution Failed!'
         }
     }
 }
