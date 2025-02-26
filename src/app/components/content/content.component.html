@@ -1,0 +1,41 @@
+<mat-drawer-container class="example-container" autosize>
+    <mat-drawer [opened]="opened"  mode="side">
+        <mat-list>
+            <mat-list-item [routerLinkActive] = "['active']" routerLink="/home">
+                <mat-icon color ="primary">home</mat-icon>
+                <a>Home</a>
+
+            </mat-list-item>
+
+            <mat-list-item [routerLinkActive] = "['active']" routerLink="/user">
+                <mat-icon color ="primary">dashboard</mat-icon>
+                <a>Dashboard</a>
+
+            </mat-list-item>
+
+            <mat-list-item [routerLinkActive] = "['active']" routerLink="/cars">
+                <mat-icon color ="primary">directions_car</mat-icon>
+                <a >Cars</a>
+
+            </mat-list-item>
+
+            <mat-list-item [routerLinkActive] = "['active']" routerLink="/admin">
+                <mat-icon color ="primary">settings</mat-icon>
+                <a>Settings</a>
+
+            </mat-list-item>
+
+        </mat-list>
+
+    </mat-drawer>
+
+    <mat-drawer-content>
+        <div class="content">
+            <router-outlet></router-outlet>
+
+        </div>
+    </mat-drawer-content>
+
+
+
+</mat-drawer-container>
