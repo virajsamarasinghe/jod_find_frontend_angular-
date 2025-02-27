@@ -17,6 +17,7 @@ spec:
           image: angular-app:v1  # Use the local Docker image
           ports:
             - containerPort: 80
+          imagePullPolicy: Never  # Prevent image pulling from remote
 
 ---
 apiVersion: v1
@@ -24,10 +25,11 @@ kind: Service
 metadata:
   name: angular-service
 spec:
-  type: LoadBalancer
+  type: NodePort  # Use NodePort for local development
   selector:
     app: angular-app
   ports:
     - protocol: TCP
       port: 80
       targetPort: 80
+      nodePort: 30000  # Optional: specify a node port for access
